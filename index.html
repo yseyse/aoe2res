@@ -9,58 +9,61 @@
             margin: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            width: 100vw;
             box-sizing: border-box;
             overflow: hidden;
         }
 
         .image-container {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
             width: 100%;
-            height: 100%;
-            overflow: hidden;
+            padding: 0.5vh 0;
+            box-sizing: border-box;
         }
 
-        .image-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .image-container p {
+        .label {
+            font-size: 20vh; /* Set font size to match image height */
+            line-height: 20vh; /* Match the image height */
+            flex-shrink: 0;
             margin: 0;
-            padding: 0.5rem;
-            font-size: 1.5vh;
-            text-align: center;
+            width: auto;
+            text-align: right;
+        }
+
+        .label.red { color: red; }
+        .label.yellow { color: yellow; }
+        .label.purple { color: purple; }
+        .label.orange { color: orange; }
+
+        img {
+            width: calc(100vw - 30vw); /* Maximize image width with space for text */
+            max-height: 20vh;
+            object-fit: contain;
         }
     </style>
 </head>
 <body>
     <div class="image-container">
-        <p>2P</p>
+        <p class="label red">水</p>
         <img id="image2" src=""/>
     </div>
     <div class="image-container">
-        <p>4P</p>
+        <p class="label yellow">康</p>
         <img id="image4" src=""/>
     </div>
     <div class="image-container">
-        <p>6P</p>
+        <p class="label purple">威</p>
         <img id="image6" src=""/>
     </div>
     <div class="image-container">
-        <p>8P</p>
+        <p class="label orange">燊</p>
         <img id="image8" src=""/>
     </div>
 
     <script>
-        // Function to fetch JSON data and display as images
         async function fetchAndDisplayImages() {
             const imageUrl = 'https://eu-west-1.aws.data.mongodb-api.com/app/application-0-hsqrn/endpoint/http';
             
@@ -68,7 +71,6 @@
                 const response = await fetch(imageUrl);
                 const jsonData = await response.json();
                 
-                // Update images with data from jsonData
                 for (let i = 0; i < 4; i++) {
                     const imageData = jsonData[i].imageData;
                     document.getElementById('image' + (2 * (i + 1))).src = 'data:image/png;base64,' + imageData;
@@ -78,7 +80,6 @@
             }
         }
 
-        // Call the function when the page loads and set it to auto-refresh every 3 seconds
         fetchAndDisplayImages();
         setInterval(fetchAndDisplayImages, 3000);
     </script>
